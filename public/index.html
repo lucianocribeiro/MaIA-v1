@@ -92,6 +92,33 @@
       min-height: 100vh;
     }
 
+    .lang-switch {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .lang-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 6px 10px;
+      text-transform: uppercase;
+    }
+
+    .lang-btn.active {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+
     /* ── Header ── */
     header {
       border-bottom: 1px solid var(--border);
@@ -496,22 +523,26 @@
   </style>
 </head>
 <body>
+  <div class="lang-switch" id="lang-switch">
+    <button class="lang-btn" data-lang="en" type="button">EN</button>
+    <button class="lang-btn" data-lang="es" type="button">ES</button>
+  </div>
 
   <div class="login-shell" id="login-shell">
     <div class="login-card">
       <h1 class="login-title">MaIA</h1>
-      <p class="login-subtitle">Secure Access</p>
+      <p class="login-subtitle" id="login-subtitle">Secure Access</p>
 
       <form class="login-form" id="login-form">
         <div class="field">
-          <label>User Name</label>
+          <label id="label-login-username">User Name</label>
           <input type="text" id="login-username" autocomplete="username" required />
         </div>
         <div class="field">
-          <label>Password</label>
+          <label id="label-login-password">Password</label>
           <input type="password" id="login-password" autocomplete="current-password" required />
         </div>
-        <button class="btn-run btn-login" type="submit">Log In</button>
+        <button class="btn-run btn-login" id="btn-login" type="submit">Log In</button>
       </form>
 
       <p class="login-error" id="login-error"></p>
@@ -522,22 +553,22 @@
     <header>
       <div class="logo">
         <span class="logo-name">MaIA</span>
-        <span class="logo-tag">Kairos Prospecting Agent</span>
+        <span class="logo-tag" id="logo-tag">Kairos Prospecting Agent</span>
       </div>
-      <div class="header-meta">LinkedIn Intelligence</div>
+      <div class="header-meta" id="header-meta">LinkedIn Intelligence</div>
     </header>
 
     <main>
 
     <!-- Search Panel -->
     <div class="search-panel">
-      <p class="section-label">Search Configuration</p>
-      <h2 class="search-title">Define your target segment</h2>
-      <p class="search-subtitle">MaIA will search LinkedIn for profiles that match your criteria and assess each lead's fit and outreach angle.</p>
+      <p class="section-label" id="search-section-label">Search Configuration</p>
+      <h2 class="search-title" id="search-title">Define your target segment</h2>
+      <p class="search-subtitle" id="search-subtitle">MaIA will search LinkedIn for profiles that match your criteria and assess each lead's fit and outreach angle.</p>
 
       <div class="fields-grid">
         <div class="field">
-          <label>Industry</label>
+          <label id="label-industry">Industry</label>
           <select id="industry">
             <option value="">All industries</option>
             <option value="Retail">Retail</option>
@@ -555,18 +586,18 @@
           </select>
         </div>
         <div class="field">
-          <label>Role / Title</label>
+          <label id="label-role">Role / Title</label>
           <input type="text" id="role" placeholder="e.g. HR Director, CHRO, COO" />
         </div>
         <div class="field">
-          <label>Location</label>
+          <label id="label-location">Location</label>
           <input type="text" id="location" value="Argentina" placeholder="e.g. Buenos Aires, Argentina" />
         </div>
       </div>
 
       <div class="fields-row">
         <div class="field">
-          <label>Company Size (optional)</label>
+          <label id="label-company-size">Company Size (optional)</label>
           <select id="company_size">
             <option value="">Any size</option>
             <option value="startup">Startup</option>
@@ -576,13 +607,13 @@
           </select>
         </div>
         <div class="field">
-          <label>Additional Keywords (optional)</label>
+          <label id="label-keywords">Additional Keywords (optional)</label>
           <input type="text" id="keywords" placeholder="e.g. transformación digital, HRIS, automatización" />
         </div>
       </div>
 
       <div class="search-footer">
-        <span class="results-hint">Up to 15 leads per search run</span>
+        <span class="results-hint" id="results-hint">Up to 15 leads per search run</span>
         <button class="btn-run" id="btn-run" onclick="runSearch()">Run MaIA</button>
       </div>
     </div>
@@ -602,8 +633,8 @@
     <!-- Empty State -->
     <div class="empty-state" id="empty-state">
       <div class="icon">◎</div>
-      <h3>No leads found</h3>
-      <p>Try broader keywords, a different role, or a different industry.</p>
+      <h3 id="empty-title">No leads found</h3>
+      <p id="empty-message">Try broader keywords, a different role, or a different industry.</p>
     </div>
 
     <!-- Leads List -->
@@ -616,8 +647,225 @@
     const VALID_USERNAME = "Agencia.Kairos";
     const VALID_PASSWORD = "Vamos123$%^";
     const AUTH_KEY = "maia_logged_in";
+    const LANG_KEY = "maia_language";
+    const I18N = {
+      en: {
+        pageTitle: "MaIA — Kairos Prospecting Agent",
+        loginSubtitle: "Secure Access",
+        loginUsername: "User Name",
+        loginPassword: "Password",
+        loginButton: "Log In",
+        loginInvalid: "Invalid user name or password.",
+        logoTag: "Kairos Prospecting Agent",
+        headerMeta: "LinkedIn Intelligence",
+        searchSectionLabel: "Search Configuration",
+        searchTitle: "Define your target segment",
+        searchSubtitle: "MaIA will search LinkedIn for profiles that match your criteria and assess each lead's fit and outreach angle.",
+        labelIndustry: "Industry",
+        labelRole: "Role / Title",
+        labelLocation: "Location",
+        labelCompanySize: "Company Size (optional)",
+        labelKeywords: "Additional Keywords (optional)",
+        rolePlaceholder: "e.g. HR Director, CHRO, COO",
+        locationPlaceholder: "e.g. Buenos Aires, Argentina",
+        keywordsPlaceholder: "e.g. digital transformation, HRIS, automation",
+        resultsHint: "Up to 15 leads per search run",
+        runButton: "Run MaIA",
+        statusSearching: "Searching LinkedIn profiles via MaIA...",
+        statusAnalyzing: "Fetching profiles and running analysis...",
+        downloadButton: "↓ Export as Markdown",
+        emptyTitle: "No leads found",
+        emptyMessage: "Try broader keywords, a different role, or a different industry.",
+        emptyErrorTitle: "Something went wrong",
+        resultsCount: (total, strong) => `<span>${total}</span> leads found · <span>${strong}</span> strong fit`,
+        scoreStrong: "Strong",
+        scoreGood: "Good",
+        scoreFair: "Fair",
+        scoreWeak: "Weak",
+        leadWhy: "Why this lead",
+        leadHow: "How to open the message",
+        leadAt: "at",
+        viewLinkedIn: "View on LinkedIn ↗",
+        unknownName: "Unknown",
+        searchFailed: "Search failed",
+        industryOptions: [
+          { value: "", label: "All industries" },
+          { value: "Retail", label: "Retail" },
+          { value: "Fintech", label: "Fintech" },
+          { value: "Financial Services", label: "Financial Services" },
+          { value: "Healthcare", label: "Healthcare" },
+          { value: "Manufacturing", label: "Manufacturing" },
+          { value: "Technology", label: "Technology" },
+          { value: "Agro", label: "Agriculture" },
+          { value: "Real Estate", label: "Real Estate" },
+          { value: "Education", label: "Education" },
+          { value: "Professional Services", label: "Professional Services" },
+          { value: "Logistics", label: "Logistics" },
+          { value: "Consumer Goods", label: "Consumer Goods" }
+        ],
+        companySizeOptions: [
+          { value: "", label: "Any size" },
+          { value: "startup", label: "Startup" },
+          { value: "mediana empresa", label: "Mid-size company" },
+          { value: "gran empresa", label: "Large company" },
+          { value: "multinacional", label: "Multinational" }
+        ]
+      },
+      es: {
+        pageTitle: "MaIA — Agente de Prospección Kairos",
+        loginSubtitle: "Acceso Seguro",
+        loginUsername: "Usuario",
+        loginPassword: "Contraseña",
+        loginButton: "Iniciar Sesión",
+        loginInvalid: "Usuario o contraseña inválidos.",
+        logoTag: "Agente de Prospección Kairos",
+        headerMeta: "Inteligencia LinkedIn",
+        searchSectionLabel: "Configuración de Búsqueda",
+        searchTitle: "Define tu segmento objetivo",
+        searchSubtitle: "MaIA buscará perfiles en LinkedIn que coincidan con tus criterios y evaluará el ajuste y el ángulo de contacto de cada lead.",
+        labelIndustry: "Industria",
+        labelRole: "Rol / Cargo",
+        labelLocation: "Ubicación",
+        labelCompanySize: "Tamaño de Empresa (opcional)",
+        labelKeywords: "Palabras Clave Adicionales (opcional)",
+        rolePlaceholder: "ej. Director de RRHH, CHRO, COO",
+        locationPlaceholder: "ej. Buenos Aires, Argentina",
+        keywordsPlaceholder: "ej. transformación digital, HRIS, automatización",
+        resultsHint: "Hasta 15 leads por búsqueda",
+        runButton: "Ejecutar MaIA",
+        statusSearching: "Buscando perfiles de LinkedIn con MaIA...",
+        statusAnalyzing: "Obteniendo perfiles y ejecutando análisis...",
+        downloadButton: "↓ Exportar en Markdown",
+        emptyTitle: "No se encontraron leads",
+        emptyMessage: "Prueba palabras clave más amplias, otro cargo u otra industria.",
+        emptyErrorTitle: "Algo salió mal",
+        resultsCount: (total, strong) => `<span>${total}</span> leads encontrados · <span>${strong}</span> ajuste alto`,
+        scoreStrong: "Fuerte",
+        scoreGood: "Bueno",
+        scoreFair: "Medio",
+        scoreWeak: "Bajo",
+        leadWhy: "Por qué este lead",
+        leadHow: "Cómo abrir el mensaje",
+        leadAt: "en",
+        viewLinkedIn: "Ver en LinkedIn ↗",
+        unknownName: "Desconocido",
+        searchFailed: "La búsqueda falló",
+        industryOptions: [
+          { value: "", label: "Todas las industrias" },
+          { value: "Retail", label: "Retail" },
+          { value: "Fintech", label: "Fintech" },
+          { value: "Financial Services", label: "Servicios Financieros" },
+          { value: "Healthcare", label: "Salud" },
+          { value: "Manufacturing", label: "Manufactura" },
+          { value: "Technology", label: "Tecnología" },
+          { value: "Agro", label: "Agro" },
+          { value: "Real Estate", label: "Real Estate" },
+          { value: "Education", label: "Educación" },
+          { value: "Professional Services", label: "Servicios Profesionales" },
+          { value: "Logistics", label: "Logística" },
+          { value: "Consumer Goods", label: "Bienes de Consumo" }
+        ],
+        companySizeOptions: [
+          { value: "", label: "Cualquier tamaño" },
+          { value: "startup", label: "Startup" },
+          { value: "mediana empresa", label: "Mediana Empresa" },
+          { value: "gran empresa", label: "Gran Empresa" },
+          { value: "multinacional", label: "Multinacional" }
+        ]
+      }
+    };
+
+    let currentLanguage = localStorage.getItem(LANG_KEY) || "es";
     let isAuthenticated = false;
     let reportMarkdown = "";
+    let currentLeads = [];
+    let lastTotals = null;
+    let isErrorState = false;
+    let lastErrorMessage = "";
+
+    function t(key) {
+      return I18N[currentLanguage][key];
+    }
+
+    function populateSelect(selectId, options) {
+      const select = document.getElementById(selectId);
+      const currentValue = select.value;
+      select.innerHTML = "";
+      options.forEach((option) => {
+        const node = document.createElement("option");
+        node.value = option.value;
+        node.textContent = option.label;
+        select.appendChild(node);
+      });
+      if (options.some((option) => option.value === currentValue)) {
+        select.value = currentValue;
+      }
+    }
+
+    function updateLanguageButtons() {
+      document.querySelectorAll(".lang-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === currentLanguage);
+      });
+    }
+
+    function renderResultsCount(total, strong) {
+      document.getElementById("results-count").innerHTML = t("resultsCount")(total, strong);
+    }
+
+    function applyTranslations() {
+      document.documentElement.lang = currentLanguage;
+      document.title = t("pageTitle");
+
+      document.getElementById("login-subtitle").textContent = t("loginSubtitle");
+      document.getElementById("label-login-username").textContent = t("loginUsername");
+      document.getElementById("label-login-password").textContent = t("loginPassword");
+      document.getElementById("btn-login").textContent = t("loginButton");
+
+      document.getElementById("logo-tag").textContent = t("logoTag");
+      document.getElementById("header-meta").textContent = t("headerMeta");
+      document.getElementById("search-section-label").textContent = t("searchSectionLabel");
+      document.getElementById("search-title").textContent = t("searchTitle");
+      document.getElementById("search-subtitle").textContent = t("searchSubtitle");
+      document.getElementById("label-industry").textContent = t("labelIndustry");
+      document.getElementById("label-role").textContent = t("labelRole");
+      document.getElementById("label-location").textContent = t("labelLocation");
+      document.getElementById("label-company-size").textContent = t("labelCompanySize");
+      document.getElementById("label-keywords").textContent = t("labelKeywords");
+      document.getElementById("role").placeholder = t("rolePlaceholder");
+      document.getElementById("location").placeholder = t("locationPlaceholder");
+      document.getElementById("keywords").placeholder = t("keywordsPlaceholder");
+      document.getElementById("results-hint").textContent = t("resultsHint");
+      document.getElementById("btn-run").textContent = t("runButton");
+      document.getElementById("btn-download").textContent = t("downloadButton");
+
+      populateSelect("industry", t("industryOptions"));
+      populateSelect("company_size", t("companySizeOptions"));
+
+      if (lastTotals) {
+        renderResultsCount(lastTotals.total, lastTotals.strong);
+      }
+
+      if (currentLeads.length > 0) {
+        renderLeads(currentLeads);
+      }
+
+      if (isErrorState) {
+        document.getElementById("empty-title").textContent = t("emptyErrorTitle");
+        document.getElementById("empty-message").textContent = lastErrorMessage;
+      } else {
+        document.getElementById("empty-title").textContent = t("emptyTitle");
+        document.getElementById("empty-message").textContent = t("emptyMessage");
+      }
+
+      updateLanguageButtons();
+    }
+
+    function setLanguage(lang) {
+      if (!I18N[lang]) return;
+      currentLanguage = lang;
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations();
+    }
 
     function setAuthenticatedState(enabled) {
       const loginShell = document.getElementById("login-shell");
@@ -649,7 +897,7 @@
         return;
       }
 
-      errorEl.textContent = "Invalid user name or password.";
+      errorEl.textContent = t("loginInvalid");
     }
 
     function getScoreClass(score) {
@@ -659,10 +907,10 @@
     }
 
     function getScoreLabel(score) {
-      if (score >= 8) return "Strong";
-      if (score >= 6) return "Good";
-      if (score >= 4) return "Fair";
-      return "Weak";
+      if (score >= 8) return t("scoreStrong");
+      if (score >= 6) return t("scoreGood");
+      if (score >= 4) return t("scoreFair");
+      return t("scoreWeak");
     }
 
     function renderLeads(leads) {
@@ -673,7 +921,7 @@
         const score = lead.fit_score || 0;
         const scoreClass = getScoreClass(score);
         const scoreLabel = getScoreLabel(score);
-        const name = lead.name || "Unknown";
+        const name = lead.name || t("unknownName");
         const role = lead.role || "—";
         const company = lead.company || "";
         const service = lead.recommended_service || "—";
@@ -690,7 +938,7 @@
             <div class="lead-identity">
               <h3>${name}</h3>
               <div class="role">${role}</div>
-              ${company ? `<div class="company">at <em>${company}</em></div>` : ""}
+              ${company ? `<div class="company">${t("leadAt")} <em>${company}</em></div>` : ""}
             </div>
             <div class="score-badge ${scoreClass}">
               <div class="score-number">${score}</div>
@@ -700,17 +948,17 @@
           <hr class="lead-divider">
           <div class="lead-insights">
             <div class="insight-block">
-              <label>Why this lead</label>
+              <label>${t("leadWhy")}</label>
               <p>${why}</p>
             </div>
             <div class="insight-block">
-              <label>How to open the message</label>
+              <label>${t("leadHow")}</label>
               <p>${angle}</p>
             </div>
           </div>
           <div class="lead-footer">
             <span class="service-tag">${service}</span>
-            <a class="linkedin-link" href="${url}" target="_blank" rel="noopener">View on LinkedIn ↗</a>
+            <a class="linkedin-link" href="${url}" target="_blank" rel="noopener">${t("viewLinkedIn")}</a>
           </div>
         `;
 
@@ -743,14 +991,20 @@
       // Reset UI
       btn.disabled = true;
       statusBar.classList.add("visible");
-      statusText.textContent = "Searching LinkedIn profiles via MaIA...";
+      statusText.textContent = t("statusSearching");
       resultsHeader.classList.remove("visible");
       emptyState.classList.remove("visible");
       leadsList.innerHTML = "";
       reportMarkdown = "";
+      currentLeads = [];
+      lastTotals = null;
+      isErrorState = false;
+      lastErrorMessage = "";
+      document.getElementById("empty-title").textContent = t("emptyTitle");
+      document.getElementById("empty-message").textContent = t("emptyMessage");
 
       try {
-        statusText.textContent = "Fetching profiles and running analysis...";
+        statusText.textContent = t("statusAnalyzing");
 
         const response = await fetch("/api/search", {
           method: "POST",
@@ -760,7 +1014,7 @@
 
         if (!response.ok) {
           const err = await response.json();
-          throw new Error(err.detail || "Search failed");
+          throw new Error(err.detail || t("searchFailed"));
         }
 
         const data = await response.json();
@@ -772,9 +1026,9 @@
         } else {
           const total = data.total;
           const strong = data.leads.filter(l => l.fit_score >= 7).length;
-
-          document.getElementById("results-count").innerHTML =
-            `<span>${total}</span> leads found · <span>${strong}</span> strong fit`;
+          currentLeads = data.leads;
+          lastTotals = { total, strong };
+          renderResultsCount(total, strong);
 
           resultsHeader.classList.add("visible");
           reportMarkdown = data.report_md || "";
@@ -784,8 +1038,10 @@
       } catch (err) {
         statusBar.classList.remove("visible");
         emptyState.classList.add("visible");
-        document.querySelector(".empty-state h3").textContent = "Something went wrong";
-        document.querySelector(".empty-state p").textContent = err.message;
+        isErrorState = true;
+        lastErrorMessage = err.message;
+        document.getElementById("empty-title").textContent = t("emptyErrorTitle");
+        document.getElementById("empty-message").textContent = err.message;
         console.error(err);
       } finally {
         btn.disabled = false;
@@ -805,7 +1061,11 @@
       URL.revokeObjectURL(url);
     }
 
+    document.querySelectorAll(".lang-btn").forEach((button) => {
+      button.addEventListener("click", () => setLanguage(button.dataset.lang));
+    });
     document.getElementById("login-form").addEventListener("submit", handleLogin);
+    applyTranslations();
     setAuthenticatedState(sessionStorage.getItem(AUTH_KEY) === "1");
   </script>
 
