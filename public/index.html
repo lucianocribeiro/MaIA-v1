@@ -35,6 +35,63 @@
       line-height: 1.6;
     }
 
+    .hidden { display: none !important; }
+
+    /* ── Login ── */
+    .login-shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: min(440px, 100%);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+
+    .login-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+
+    .login-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn-login {
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .login-error {
+      min-height: 18px;
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 10px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+    }
+
     /* ── Header ── */
     header {
       border-bottom: 1px solid var(--border);
@@ -440,15 +497,37 @@
 </head>
 <body>
 
-  <header>
-    <div class="logo">
-      <span class="logo-name">MaIA</span>
-      <span class="logo-tag">Kairos Prospecting Agent</span>
-    </div>
-    <div class="header-meta">LinkedIn Intelligence</div>
-  </header>
+  <div class="login-shell" id="login-shell">
+    <div class="login-card">
+      <h1 class="login-title">MaIA</h1>
+      <p class="login-subtitle">Secure Access</p>
 
-  <main>
+      <form class="login-form" id="login-form">
+        <div class="field">
+          <label>User Name</label>
+          <input type="text" id="login-username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" required />
+        </div>
+        <button class="btn-run btn-login" type="submit">Log In</button>
+      </form>
+
+      <p class="login-error" id="login-error"></p>
+    </div>
+  </div>
+
+  <div class="app-shell hidden" id="app-shell">
+    <header>
+      <div class="logo">
+        <span class="logo-name">MaIA</span>
+        <span class="logo-tag">Kairos Prospecting Agent</span>
+      </div>
+      <div class="header-meta">LinkedIn Intelligence</div>
+    </header>
+
+    <main>
 
     <!-- Search Panel -->
     <div class="search-panel">
@@ -530,10 +609,48 @@
     <!-- Leads List -->
     <div class="leads-list" id="leads-list"></div>
 
-  </main>
+    </main>
+  </div>
 
   <script>
+    const VALID_USERNAME = "Agencia.Kairos";
+    const VALID_PASSWORD = "Vamos123$%^";
+    const AUTH_KEY = "maia_logged_in";
+    let isAuthenticated = false;
     let reportMarkdown = "";
+
+    function setAuthenticatedState(enabled) {
+      const loginShell = document.getElementById("login-shell");
+      const appShell = document.getElementById("app-shell");
+
+      isAuthenticated = enabled;
+
+      if (enabled) {
+        sessionStorage.setItem(AUTH_KEY, "1");
+        loginShell.classList.add("hidden");
+        appShell.classList.remove("hidden");
+      } else {
+        sessionStorage.removeItem(AUTH_KEY);
+        loginShell.classList.remove("hidden");
+        appShell.classList.add("hidden");
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value;
+      const errorEl = document.getElementById("login-error");
+
+      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        errorEl.textContent = "";
+        setAuthenticatedState(true);
+        return;
+      }
+
+      errorEl.textContent = "Invalid user name or password.";
+    }
 
     function getScoreClass(score) {
       if (score >= 7) return "score-high";
@@ -602,6 +719,11 @@
     }
 
     async function runSearch() {
+      if (!isAuthenticated) {
+        setAuthenticatedState(false);
+        return;
+      }
+
       const btn = document.getElementById("btn-run");
       const statusBar = document.getElementById("status-bar");
       const statusText = document.getElementById("status-text");
@@ -682,6 +804,9 @@
       a.click();
       URL.revokeObjectURL(url);
     }
+
+    document.getElementById("login-form").addEventListener("submit", handleLogin);
+    setAuthenticatedState(sessionStorage.getItem(AUTH_KEY) === "1");
   </script>
 
 </body>
