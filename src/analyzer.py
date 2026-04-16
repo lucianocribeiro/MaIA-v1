@@ -18,6 +18,7 @@ You respond ONLY with a valid JSON object. No preamble, no explanation, no markd
 
 def analyze_profile(profile: Dict, search_params: Dict) -> Dict:
     """Analyze a single LinkedIn profile and return structured assessment."""
+    language = "Spanish" if search_params.get("language") == "es" else "English"
 
     user_message = f"""Analyze this LinkedIn profile as a potential Kairos client:
 
@@ -30,6 +31,7 @@ Search context used to find this person:
 - Target role: {search_params.get('role') or 'Not specified'}
 - Target location: {search_params.get('location') or 'Argentina'}
 - Additional keywords: {search_params.get('keywords') or 'None'}
+- Output language for all text fields: {language}
 
 Return this exact JSON structure (no extra fields, no markdown):
 {{
@@ -40,7 +42,11 @@ Return this exact JSON structure (no extra fields, no markdown):
   "why_this_lead": "2 to 3 sentences explaining why this person is a relevant Kairos prospect. Be specific and grounded in what you see.",
   "conversation_angle": "2 to 3 sentences on how to open the LinkedIn message — what pain point, transformation challenge, or opportunity to lead with.",
   "recommended_service": "one of: AI Implementation, HR Technology, Process Design, Automation, Business Transformation"
-}}"""
+}}
+
+Language rule:
+- Write "name", "role", "company", "why_this_lead", and "conversation_angle" in {language}.
+- Keep "recommended_service" in English using exactly one of the allowed values above."""
 
     response = client.messages.create(
         model="claude-sonnet-4-6",

@@ -595,88 +595,8 @@
           <input type="text" id="role" placeholder="e.g. HR Director, CHRO, COO" />
         </div>
         <div class="field">
-          <label>Location</label>
-          <select id="location">
-            <optgroup label="── LATAM ──">
-              <option value="Argentina" selected>Argentina</option>
-              <option value="Brasil">Brasil</option>
-              <option value="Chile">Chile</option>
-              <option value="Colombia">Colombia</option>
-              <option value="México">México</option>
-              <option value="Perú">Perú</option>
-              <option value="Uruguay">Uruguay</option>
-              <option value="Paraguay">Paraguay</option>
-              <option value="Bolivia">Bolivia</option>
-              <option value="Ecuador">Ecuador</option>
-              <option value="Venezuela">Venezuela</option>
-              <option value="Guatemala">Guatemala</option>
-              <option value="Costa Rica">Costa Rica</option>
-              <option value="Panamá">Panamá</option>
-              <option value="República Dominicana">República Dominicana</option>
-              <option value="Cuba">Cuba</option>
-              <option value="Puerto Rico">Puerto Rico</option>
-            </optgroup>
-            <optgroup label="── North America ──">
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-            </optgroup>
-            <optgroup label="── Europe ──">
-              <option value="España">España</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Germany">Germany</option>
-              <option value="France">France</option>
-              <option value="Italy">Italy</option>
-              <option value="Netherlands">Netherlands</option>
-              <option value="Belgium">Belgium</option>
-              <option value="Switzerland">Switzerland</option>
-              <option value="Sweden">Sweden</option>
-              <option value="Norway">Norway</option>
-              <option value="Denmark">Denmark</option>
-              <option value="Finland">Finland</option>
-              <option value="Poland">Poland</option>
-              <option value="Portugal">Portugal</option>
-              <option value="Austria">Austria</option>
-              <option value="Ireland">Ireland</option>
-              <option value="Czech Republic">Czech Republic</option>
-              <option value="Romania">Romania</option>
-              <option value="Hungary">Hungary</option>
-              <option value="Greece">Greece</option>
-              <option value="Ukraine">Ukraine</option>
-              <option value="Russia">Russia</option>
-              <option value="Turkey">Turkey</option>
-            </optgroup>
-            <optgroup label="── Asia Pacific ──">
-              <option value="Australia">Australia</option>
-              <option value="New Zealand">New Zealand</option>
-              <option value="India">India</option>
-              <option value="China">China</option>
-              <option value="Japan">Japan</option>
-              <option value="South Korea">South Korea</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Malaysia">Malaysia</option>
-              <option value="Indonesia">Indonesia</option>
-              <option value="Philippines">Philippines</option>
-              <option value="Thailand">Thailand</option>
-              <option value="Vietnam">Vietnam</option>
-              <option value="Hong Kong">Hong Kong</option>
-              <option value="Taiwan">Taiwan</option>
-              <option value="Pakistan">Pakistan</option>
-              <option value="Bangladesh">Bangladesh</option>
-            </optgroup>
-            <optgroup label="── Middle East & Africa ──">
-              <option value="United Arab Emirates">United Arab Emirates</option>
-              <option value="Saudi Arabia">Saudi Arabia</option>
-              <option value="Israel">Israel</option>
-              <option value="Egypt">Egypt</option>
-              <option value="South Africa">South Africa</option>
-              <option value="Nigeria">Nigeria</option>
-              <option value="Kenya">Kenya</option>
-              <option value="Morocco">Morocco</option>
-              <option value="Qatar">Qatar</option>
-              <option value="Kuwait">Kuwait</option>
-              <option value="Jordan">Jordan</option>
-            </optgroup>
-          </select>
+          <label id="label-location">Location</label>
+          <select id="location"></select>
         </div>
       </div>
 
@@ -793,7 +713,110 @@
           { value: "mediana empresa", label: "Mid-size company" },
           { value: "gran empresa", label: "Large company" },
           { value: "multinacional", label: "Multinational" }
-        ]
+        ],
+        locationOptions: [
+          {
+            label: "LATAM",
+            options: [
+              { value: "Argentina", label: "Argentina" },
+              { value: "Brasil", label: "Brazil" },
+              { value: "Chile", label: "Chile" },
+              { value: "Colombia", label: "Colombia" },
+              { value: "México", label: "Mexico" },
+              { value: "Perú", label: "Peru" },
+              { value: "Uruguay", label: "Uruguay" },
+              { value: "Paraguay", label: "Paraguay" },
+              { value: "Bolivia", label: "Bolivia" },
+              { value: "Ecuador", label: "Ecuador" },
+              { value: "Venezuela", label: "Venezuela" },
+              { value: "Guatemala", label: "Guatemala" },
+              { value: "Costa Rica", label: "Costa Rica" },
+              { value: "Panamá", label: "Panama" },
+              { value: "República Dominicana", label: "Dominican Republic" },
+              { value: "Cuba", label: "Cuba" },
+              { value: "Puerto Rico", label: "Puerto Rico" }
+            ]
+          },
+          {
+            label: "North America",
+            options: [
+              { value: "United States", label: "United States" },
+              { value: "Canada", label: "Canada" }
+            ]
+          },
+          {
+            label: "Europe",
+            options: [
+              { value: "España", label: "Spain" },
+              { value: "United Kingdom", label: "United Kingdom" },
+              { value: "Germany", label: "Germany" },
+              { value: "France", label: "France" },
+              { value: "Italy", label: "Italy" },
+              { value: "Netherlands", label: "Netherlands" },
+              { value: "Belgium", label: "Belgium" },
+              { value: "Switzerland", label: "Switzerland" },
+              { value: "Sweden", label: "Sweden" },
+              { value: "Norway", label: "Norway" },
+              { value: "Denmark", label: "Denmark" },
+              { value: "Finland", label: "Finland" },
+              { value: "Poland", label: "Poland" },
+              { value: "Portugal", label: "Portugal" },
+              { value: "Austria", label: "Austria" },
+              { value: "Ireland", label: "Ireland" },
+              { value: "Czech Republic", label: "Czech Republic" },
+              { value: "Romania", label: "Romania" },
+              { value: "Hungary", label: "Hungary" },
+              { value: "Greece", label: "Greece" },
+              { value: "Ukraine", label: "Ukraine" },
+              { value: "Russia", label: "Russia" },
+              { value: "Turkey", label: "Turkey" }
+            ]
+          },
+          {
+            label: "Asia Pacific",
+            options: [
+              { value: "Australia", label: "Australia" },
+              { value: "New Zealand", label: "New Zealand" },
+              { value: "India", label: "India" },
+              { value: "China", label: "China" },
+              { value: "Japan", label: "Japan" },
+              { value: "South Korea", label: "South Korea" },
+              { value: "Singapore", label: "Singapore" },
+              { value: "Malaysia", label: "Malaysia" },
+              { value: "Indonesia", label: "Indonesia" },
+              { value: "Philippines", label: "Philippines" },
+              { value: "Thailand", label: "Thailand" },
+              { value: "Vietnam", label: "Vietnam" },
+              { value: "Hong Kong", label: "Hong Kong" },
+              { value: "Taiwan", label: "Taiwan" },
+              { value: "Pakistan", label: "Pakistan" },
+              { value: "Bangladesh", label: "Bangladesh" }
+            ]
+          },
+          {
+            label: "Middle East & Africa",
+            options: [
+              { value: "United Arab Emirates", label: "United Arab Emirates" },
+              { value: "Saudi Arabia", label: "Saudi Arabia" },
+              { value: "Israel", label: "Israel" },
+              { value: "Egypt", label: "Egypt" },
+              { value: "South Africa", label: "South Africa" },
+              { value: "Nigeria", label: "Nigeria" },
+              { value: "Kenya", label: "Kenya" },
+              { value: "Morocco", label: "Morocco" },
+              { value: "Qatar", label: "Qatar" },
+              { value: "Kuwait", label: "Kuwait" },
+              { value: "Jordan", label: "Jordan" }
+            ]
+          }
+        ],
+        serviceLabels: {
+          "AI Implementation": "AI Implementation",
+          "HR Technology": "HR Technology",
+          "Process Design": "Process Design",
+          "Automation": "Automation",
+          "Business Transformation": "Business Transformation"
+        }
       },
       es: {
         pageTitle: "MaIA — Agente de Prospección Kairos",
@@ -835,14 +858,14 @@
         searchFailed: "La búsqueda falló",
         industryOptions: [
           { value: "", label: "Todas las industrias" },
-          { value: "Retail", label: "Retail" },
+          { value: "Retail", label: "Comercio Minorista" },
           { value: "Fintech", label: "Fintech" },
           { value: "Financial Services", label: "Servicios Financieros" },
           { value: "Healthcare", label: "Salud" },
           { value: "Manufacturing", label: "Manufactura" },
           { value: "Technology", label: "Tecnología" },
           { value: "Agro", label: "Agro" },
-          { value: "Real Estate", label: "Real Estate" },
+          { value: "Real Estate", label: "Inmobiliario" },
           { value: "Education", label: "Educación" },
           { value: "Professional Services", label: "Servicios Profesionales" },
           { value: "Logistics", label: "Logística" },
@@ -854,7 +877,110 @@
           { value: "mediana empresa", label: "Mediana Empresa" },
           { value: "gran empresa", label: "Gran Empresa" },
           { value: "multinacional", label: "Multinacional" }
-        ]
+        ],
+        locationOptions: [
+          {
+            label: "LATAM",
+            options: [
+              { value: "Argentina", label: "Argentina" },
+              { value: "Brasil", label: "Brasil" },
+              { value: "Chile", label: "Chile" },
+              { value: "Colombia", label: "Colombia" },
+              { value: "México", label: "México" },
+              { value: "Perú", label: "Perú" },
+              { value: "Uruguay", label: "Uruguay" },
+              { value: "Paraguay", label: "Paraguay" },
+              { value: "Bolivia", label: "Bolivia" },
+              { value: "Ecuador", label: "Ecuador" },
+              { value: "Venezuela", label: "Venezuela" },
+              { value: "Guatemala", label: "Guatemala" },
+              { value: "Costa Rica", label: "Costa Rica" },
+              { value: "Panamá", label: "Panamá" },
+              { value: "República Dominicana", label: "República Dominicana" },
+              { value: "Cuba", label: "Cuba" },
+              { value: "Puerto Rico", label: "Puerto Rico" }
+            ]
+          },
+          {
+            label: "América del Norte",
+            options: [
+              { value: "United States", label: "Estados Unidos" },
+              { value: "Canada", label: "Canadá" }
+            ]
+          },
+          {
+            label: "Europa",
+            options: [
+              { value: "España", label: "España" },
+              { value: "United Kingdom", label: "Reino Unido" },
+              { value: "Germany", label: "Alemania" },
+              { value: "France", label: "Francia" },
+              { value: "Italy", label: "Italia" },
+              { value: "Netherlands", label: "Países Bajos" },
+              { value: "Belgium", label: "Bélgica" },
+              { value: "Switzerland", label: "Suiza" },
+              { value: "Sweden", label: "Suecia" },
+              { value: "Norway", label: "Noruega" },
+              { value: "Denmark", label: "Dinamarca" },
+              { value: "Finland", label: "Finlandia" },
+              { value: "Poland", label: "Polonia" },
+              { value: "Portugal", label: "Portugal" },
+              { value: "Austria", label: "Austria" },
+              { value: "Ireland", label: "Irlanda" },
+              { value: "Czech Republic", label: "República Checa" },
+              { value: "Romania", label: "Rumania" },
+              { value: "Hungary", label: "Hungría" },
+              { value: "Greece", label: "Grecia" },
+              { value: "Ukraine", label: "Ucrania" },
+              { value: "Russia", label: "Rusia" },
+              { value: "Turkey", label: "Turquía" }
+            ]
+          },
+          {
+            label: "Asia Pacífico",
+            options: [
+              { value: "Australia", label: "Australia" },
+              { value: "New Zealand", label: "Nueva Zelanda" },
+              { value: "India", label: "India" },
+              { value: "China", label: "China" },
+              { value: "Japan", label: "Japón" },
+              { value: "South Korea", label: "Corea del Sur" },
+              { value: "Singapore", label: "Singapur" },
+              { value: "Malaysia", label: "Malasia" },
+              { value: "Indonesia", label: "Indonesia" },
+              { value: "Philippines", label: "Filipinas" },
+              { value: "Thailand", label: "Tailandia" },
+              { value: "Vietnam", label: "Vietnam" },
+              { value: "Hong Kong", label: "Hong Kong" },
+              { value: "Taiwan", label: "Taiwán" },
+              { value: "Pakistan", label: "Pakistán" },
+              { value: "Bangladesh", label: "Bangladés" }
+            ]
+          },
+          {
+            label: "Medio Oriente y África",
+            options: [
+              { value: "United Arab Emirates", label: "Emiratos Árabes Unidos" },
+              { value: "Saudi Arabia", label: "Arabia Saudita" },
+              { value: "Israel", label: "Israel" },
+              { value: "Egypt", label: "Egipto" },
+              { value: "South Africa", label: "Sudáfrica" },
+              { value: "Nigeria", label: "Nigeria" },
+              { value: "Kenya", label: "Kenia" },
+              { value: "Morocco", label: "Marruecos" },
+              { value: "Qatar", label: "Catar" },
+              { value: "Kuwait", label: "Kuwait" },
+              { value: "Jordan", label: "Jordania" }
+            ]
+          }
+        ],
+        serviceLabels: {
+          "AI Implementation": "Implementación de IA",
+          "HR Technology": "Tecnología de RRHH",
+          "Process Design": "Diseño de Procesos",
+          "Automation": "Automatización",
+          "Business Transformation": "Transformación del Negocio"
+        }
       }
     };
 
@@ -883,6 +1009,40 @@
       if (options.some((option) => option.value === currentValue)) {
         select.value = currentValue;
       }
+    }
+
+    function populateGroupedSelect(selectId, groups, fallbackValue = "Argentina") {
+      const select = document.getElementById(selectId);
+      const currentValue = select.value;
+      select.innerHTML = "";
+
+      groups.forEach((group) => {
+        const optgroup = document.createElement("optgroup");
+        optgroup.label = `── ${group.label} ──`;
+
+        group.options.forEach((option) => {
+          const node = document.createElement("option");
+          node.value = option.value;
+          node.textContent = option.label;
+          optgroup.appendChild(node);
+        });
+
+        select.appendChild(optgroup);
+      });
+
+      const nextValue = currentValue || fallbackValue;
+      const exists = groups.some((group) =>
+        group.options.some((option) => option.value === nextValue)
+      );
+      if (exists) {
+        select.value = nextValue;
+      }
+    }
+
+    function translateServiceLabel(service) {
+      if (!service) return "—";
+      const labels = t("serviceLabels");
+      return labels[service] || service;
     }
 
     function updateLanguageButtons() {
@@ -922,6 +1082,7 @@
 
       populateSelect("industry", t("industryOptions"));
       populateSelect("company_size", t("companySizeOptions"));
+      populateGroupedSelect("location", t("locationOptions"));
 
       if (lastTotals) {
         renderResultsCount(lastTotals.total, lastTotals.strong);
@@ -1006,7 +1167,7 @@
         const name = lead.name || t("unknownName");
         const role = lead.role || "—";
         const company = lead.company || "";
-        const service = lead.recommended_service || "—";
+        const service = translateServiceLabel(lead.recommended_service);
         const url = lead.linkedin_url || "#";
         const why = lead.why_this_lead || "—";
         const angle = lead.conversation_angle || "—";
@@ -1062,6 +1223,7 @@
       const leadsList = document.getElementById("leads-list");
 
       const params = {
+        language: currentLanguage,
         industry: document.getElementById("industry").value,
         role: document.getElementById("role").value,
         location: document.getElementById("location").value,
@@ -1095,8 +1257,7 @@
         });
 
         if (!response.ok) {
-          const err = await response.json();
-          throw new Error(err.detail || t("searchFailed"));
+          throw new Error(t("searchFailed"));
         }
 
         const data = await response.json();

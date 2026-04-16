@@ -27,6 +27,7 @@ app.add_middleware(
 
 
 class SearchParams(BaseModel):
+    language: Optional[str] = "es"
     industry: Optional[str] = ""
     role: Optional[str] = ""
     location: Optional[str] = "Argentina"
