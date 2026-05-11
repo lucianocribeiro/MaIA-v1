@@ -33,6 +33,7 @@ class SearchParams(BaseModel):
     location: Optional[str] = "Argentina"
     company_size: Optional[str] = ""
     keywords: Optional[str] = ""
+    target_service: Optional[str] = ""
     max_results: Optional[int] = 15
 
 

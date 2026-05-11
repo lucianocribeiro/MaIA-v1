@@ -602,6 +602,19 @@
 
       <div class="fields-row">
         <div class="field">
+          <label>Target Service</label>
+          <select id="target_service">
+            <option value="">All services</option>
+            <option value="Consultoría Especializada">Consultoría Especializada</option>
+            <option value="Tecnología">Tecnología</option>
+            <option value="Gestión del Cambio">Gestión del Cambio</option>
+            <option value="Capacitaciones y Workshops">Capacitaciones y Workshops</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fields-row">
+        <div class="field">
           <label id="label-company-size">Company Size (optional)</label>
           <select id="company_size">
             <option value="">Any size</option>
@@ -1171,6 +1184,8 @@
         const url = lead.linkedin_url || "#";
         const why = lead.why_this_lead || "—";
         const angle = lead.conversation_angle || "—";
+        const warm = lead.linkedin_message_warm || "—";
+        const direct = lead.linkedin_message_direct || "—";
 
         const card = document.createElement("div");
         card.className = "lead-card";
@@ -1195,8 +1210,19 @@
               <p>${why}</p>
             </div>
             <div class="insight-block">
-              <label>${t("leadHow")}</label>
+              <label>Conversation angle</label>
               <p>${angle}</p>
+            </div>
+          </div>
+          <hr class="lead-divider">
+          <div class="lead-insights" style="grid-template-columns: 1fr 1fr; margin-bottom: 16px;">
+            <div class="insight-block">
+              <label>LinkedIn message — Warm</label>
+              <p style="white-space: pre-line;">${warm}</p>
+            </div>
+            <div class="insight-block">
+              <label>LinkedIn message — Direct</label>
+              <p style="white-space: pre-line;">${direct}</p>
             </div>
           </div>
           <div class="lead-footer">
@@ -1229,6 +1255,7 @@
         location: document.getElementById("location").value,
         company_size: document.getElementById("company_size").value,
         keywords: document.getElementById("keywords").value,
+        target_service: document.getElementById("target_service").value,
         max_results: 15
       };
 
